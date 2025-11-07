@@ -21,8 +21,19 @@ class TestKingdeeApi < Minitest::Test
     assert token
   end
 
-  def test_can_get_data
+  def test_can_post_data
+# https://api.kingdee.com/jdy/v2/bd/material
+    response = KingdeeApi.client.post("/jdy/v2/bd/material", params: {
 
+       "name": "名称1hello",
+       "base_unit_id": '1'
+
+    })
+    assert response
+  end
+
+  def test_can_get_data
+    skip "skip test_can_get_data"
     response = KingdeeApi.client.get("/jdy/v2/scm/pur_request")
     assert response
   end

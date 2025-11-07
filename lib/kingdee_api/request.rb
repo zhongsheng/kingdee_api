@@ -4,18 +4,20 @@ module KingdeeApi
   module Request
     HOST = 'https://api.kingdee.com'
 
-    def get(path, params = nil)
+    def get(path, params: nil)
       query_with('GET', path: path, params: params)
     end
 
-    def post
+    # TODO: 实现 post 方法
+    def post(path, params: nil)
+      pp "post", query_with('POST', path: path, params: params)
     end
 
     private
     def query_with(method, path:, params: nil)
       # ✅ 构造请求 URL
       uri = URI("#{HOST}#{path}")
-      uri.query = URI.encode_www_form(params) unless params.nil?
+      uri.query = URI.encode_www_form(params) unless params.nil? || method == 'POST'
 
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
@@ -23,7 +25,7 @@ module KingdeeApi
       x_api_signature = x_api_signature_with(
         method: method,
         path: path,
-        params: params,
+        params: method == 'POST' ? {} : params,
         nonce: nonce,
         timestamp: timestamp,
         client_secret: client_secret
@@ -41,13 +43,27 @@ module KingdeeApi
       request["app-token"]    = token
       request["X-GW-Router-Addr"] = domain
 
+      if method == 'POST'
+        # 参数名ASCII码升序顺序进行排序
+        pp "--------------------------------"
+        pp params
+        pp JSON.generate(params.sort.to_h)
+        pp "--------------------------------"
+        request.body = JSON.generate(params.sort.to_h)
+      end
+# 打印请求头 和 body
+      pp "request headers: #{request.to_hash}"
+      pp "request body: #{request.body}"
       response = http.request(request)
+
 
       pp response.body
       puts "[HTTP] #{response.code}"
-      # puts JSON.parse(response.body)
-      # app-token: object	false	用于调用星辰接口，有效期为24小时
-      response.body
+      if response.code == '200'
+        return JSON.parse(response.body)
+      else
+        raise JSON.parse(response.body).fetch('description', 'Unknown error')
+      end
     end
   end
 end
