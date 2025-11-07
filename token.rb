@@ -45,33 +45,33 @@ class Token
 
   def query_token_with(app_key, app_signature, x_api_signature, nonce, timestamp, client_id)
 
-# ✅ 构造请求 URL
-uri = URI('https://api.kingdee.com/jdyconnector/app_management/kingdee_auth_token')
-uri.query = URI.encode_www_form({
-  "app_key"       => app_key,
-  "app_signature" => app_signature #app_signature
-})
+    # ✅ 构造请求 URL
+    uri = URI('https://api.kingdee.com/jdyconnector/app_management/kingdee_auth_token')
+    uri.query = URI.encode_www_form({
+                                      "app_key"       => app_key,
+                                      "app_signature" => app_signature #app_signature
+                                    })
 
-pp uri.query
-pp uri.host
-pp uri.to_s
-http = Net::HTTP.new(uri.host, uri.port)
-http.use_ssl = true
+    pp uri.query
+    pp uri.host
+    pp uri.to_s
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
 
-request = Net::HTTP::Get.new(uri)
-request["X-Api-ClientID"]     = client_id
-request["X-Api-Auth-Version"] = "2.0"
-request["X-Api-TimeStamp"]    = timestamp
-request["X-Api-Nonce"]        = nonce
-request["X-Api-SignHeaders"]  = "X-Api-TimeStamp,X-Api-Nonce"
-request["X-Api-Signature"]    = "#{x_api_signature}"
+    request = Net::HTTP::Get.new(uri)
+    request["X-Api-ClientID"]     = client_id
+    request["X-Api-Auth-Version"] = "2.0"
+    request["X-Api-TimeStamp"]    = timestamp
+    request["X-Api-Nonce"]        = nonce
+    request["X-Api-SignHeaders"]  = "X-Api-TimeStamp,X-Api-Nonce"
+    request["X-Api-Signature"]    = "#{x_api_signature}"
 
 
 
-response = http.request(request)
+    response = http.request(request)
 
-puts "[HTTP] #{response.code}"
-puts response.body
+    puts "[HTTP] #{response.code}"
+    puts response.body
   end
 
   def nonce
@@ -94,34 +94,34 @@ puts response.body
     ).gsub(/%[0-9a-f]{2}/) { |m| m.upcase }
   end
 
-# ✅ 生成 X-Api-Signature
-def x_api_signature_with(method:, path:, params:, nonce:, timestamp:, client_secret:)
-  encoded_path = URI.encode_www_form_component(path)
+  # ✅ 生成 X-Api-Signature
+  def x_api_signature_with(method:, path:, params:, nonce:, timestamp:, client_secret:)
+    encoded_path = URI.encode_www_form_component(path)
 
-  encoded_params = params.sort.to_h.map do |k, v|
-    "#{double_encode(k)}=#{double_encode(v)}"
-  end.join("&")
+    encoded_params = params.sort.to_h.map do |k, v|
+      "#{double_encode(k)}=#{double_encode(v)}"
+    end.join("&")
 
-  headers_block = [
-    "x-api-nonce:#{nonce}",
-    "x-api-timestamp:#{timestamp}"
-  ].join("\n")
+    headers_block = [
+      "x-api-nonce:#{nonce}",
+      "x-api-timestamp:#{timestamp}"
+    ].join("\n")
 
-  sign_plain = [
-    method.upcase,
-    encoded_path,
-    encoded_params,
-    headers_block,
-    "" # ⚠️ 末尾必须换行
-  ].join("\n")
+    sign_plain = [
+      method.upcase,
+      encoded_path,
+      encoded_params,
+      headers_block,
+      "" # ⚠️ 末尾必须换行
+    ].join("\n")
 
-  puts sign_plain
+    puts sign_plain
 
 
-  Base64.strict_encode64(
-    OpenSSL::HMAC.hexdigest("SHA256", client_secret, sign_plain)
-  )
-end
+    Base64.strict_encode64(
+      OpenSSL::HMAC.hexdigest("SHA256", client_secret, sign_plain)
+    )
+  end
 
 
 end
