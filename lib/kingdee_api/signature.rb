@@ -41,9 +41,6 @@ module KingdeeApi
                                         "app_signature" => app_signature #app_signature
                                       })
 
-      pp uri.query
-      pp uri.host
-      pp uri.to_s
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
 
@@ -59,8 +56,7 @@ module KingdeeApi
 
       response = http.request(request)
 
-      puts "[HTTP] #{response.code}"
-      puts JSON.parse(response.body)
+
       # app-token: object	false	用于调用星辰接口，有效期为24小时
       JSON.parse(response.body)["data"]["app-token"]
     end
@@ -91,7 +87,7 @@ module KingdeeApi
         "" # ⚠️ 末尾必须换行
       ].join("\n")
 
-      puts sign_plain
+
 
 
       Base64.strict_encode64(
