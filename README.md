@@ -1,14 +1,9 @@
 # KingdeeApi
 
-TODO: Delete this and the text below, and describe your gem
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/kingdee_api`. To experiment with that code, run `bin/console` for an interactive prompt.
+实现金蝶云api的http请求加签.
+[https://open.jdy.com/#/files/api/detail?index=3&categrayId=3cc8ee9a663e11eda5c84b5d383a2b93&id=adfe4a24712711eda0b307c6992ee459](金蝶云api文档)
 
 ## Installation
-
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
-
-Install the gem and add to the application's Gemfile by executing:
 
 ```bash
 bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
@@ -22,7 +17,50 @@ gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
 
 ## Usage
 
-TODO: Write usage instructions here
+默认使用环境变量
+
+``` bash
+# load env 
+export KINGDEE_CLIENT_ID=327910
+export KINGDEE_CLIENT_SECRET=327xxxxxxx910
+export KINGDEE_APP_KEY=gsKeflPn
+export KINGDEE_APP_SECRET=4bf00ef4c9252e4c727f0e9d762a706d418f5e87
+export KINGDEE_DOMAIN=https://tf.jdy.com
+```
+
+or
+
+``` ruby
+KingdeeApi.client(
+
+)
+
+```
+
+### 示例- 采购申请单列表
+用途说明：采购申请单列表
+请求方式：GET
+请求地址：https://api.kingdee.com/jdy/v2/scm/pur_request
+
+``` ruby
+KingdeeApi.client.get('jdy/v2/scm/pur_request')
+```
+
+### 采购申请单保存
+用途说明：采购申请单新增及修改。审核、删除等详见通用操作接口
+请求方式：POST
+请求地址：https://api.kingdee.com/jdy/v2/scm/pur_request
+
+
+``` ruby
+KingdeeApi.client.post('jdy/v2/scm/pur_request', params: {
+   bill_date: 'xxx',
+   ...
+}) do |request|
+   request.attach 'file/path/1'
+   request.attach 'file/path/2'
+end
+```
 
 ## Development
 
@@ -32,7 +70,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/kingdee_api.
+Bug reports and pull requests are welcome on GitHub at https://github.com/zhongsheng/kingdee_api.
 
 ## License
 
