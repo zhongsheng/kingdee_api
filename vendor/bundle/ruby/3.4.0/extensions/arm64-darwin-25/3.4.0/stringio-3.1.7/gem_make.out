@@ -1,0 +1,19 @@
+current directory: /Users/zhongsheng/workspace/kingdee_api/vendor/bundle/ruby/3.4.0/gems/stringio-3.1.7/ext/stringio
+/Users/zhongsheng/.local/share/mise/installs/ruby/3.4.5/bin/ruby extconf.rb
+checking for rb_io_mode_t in ruby/io.h... no
+creating Makefile
+
+current directory: /Users/zhongsheng/workspace/kingdee_api/vendor/bundle/ruby/3.4.0/gems/stringio-3.1.7/ext/stringio
+make DESTDIR\= sitearchdir\=./.gem.20251107-33866-rwhtq1 sitelibdir\=./.gem.20251107-33866-rwhtq1 clean
+
+current directory: /Users/zhongsheng/workspace/kingdee_api/vendor/bundle/ruby/3.4.0/gems/stringio-3.1.7/ext/stringio
+make DESTDIR\= sitearchdir\=./.gem.20251107-33866-rwhtq1 sitelibdir\=./.gem.20251107-33866-rwhtq1
+compiling stringio.c
+linking shared-object stringio.bundle
+
+current directory: /Users/zhongsheng/workspace/kingdee_api/vendor/bundle/ruby/3.4.0/gems/stringio-3.1.7/ext/stringio
+make DESTDIR\= sitearchdir\=./.gem.20251107-33866-rwhtq1 sitelibdir\=./.gem.20251107-33866-rwhtq1 install
+/opt/homebrew/bin/ginstall -c -m 0755 stringio.bundle ./.gem.20251107-33866-rwhtq1
+
+current directory: /Users/zhongsheng/workspace/kingdee_api/vendor/bundle/ruby/3.4.0/gems/stringio-3.1.7/ext/stringio
+make DESTDIR\= sitearchdir\=./.gem.20251107-33866-rwhtq1 sitelibdir\=./.gem.20251107-33866-rwhtq1 clean

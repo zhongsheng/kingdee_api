@@ -3,11 +3,36 @@
 require "test_helper"
 
 class TestKingdeeApi < Minitest::Test
+  def setup
+    KingdeeApi.reset!
+    KingdeeApi.configure do |config|
+      config.client_id = "327910"
+      config.client_secret = "c195564b8d1f1d4ad839ff83eea3eefa"
+      config.app_key = "gsKeflPn"
+      config.app_secret = "8b081c4ea0f9cbb569cf6f5c8f720774083e8f81"
+      config.domain = "https://example.com"
+    end
+  end
+
+  def test_can_get_token
+    token = KingdeeApi.client.token
+
+    assert_equal "token", token
+  end
+
   def test_that_it_has_a_version_number
     refute_nil ::KingdeeApi::VERSION
   end
 
-  def test_it_does_something_useful
-    assert false
+  def test_client_inherits_global_configuration
+    client = KingdeeApi.client
+    assert_instance_of KingdeeApi::Client, client
+  end
+
+  def test_client_can_override_configuration_per_call
+    client = KingdeeApi.client(app_key: "override")
+    overridden = client.send(:configuration)
+
+    assert_equal "override", overridden.app_key
   end
 end
