@@ -30,6 +30,7 @@ module KingdeeApi
 
     def reset!
       @configuration = Configuration.new
+      Signature.reset_token_cache!
     end
 
     def client(options = nil, **overrides)
