@@ -26,7 +26,6 @@ module KingdeeApi
       @client_id = configuration.client_id
       @client_secret = configuration.client_secret
       @domain = configuration.domain
-      @http_adapter = http_adapter || HttpAdapter.new
     end
 
 

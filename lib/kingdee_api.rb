@@ -12,10 +12,10 @@ require_relative "kingdee_api/version"
 require_relative "kingdee_api/errors"
 require_relative "kingdee_api/configuration"
 require_relative "kingdee_api/signature"
-require_relative "kingdee_api/http_get"
+
 require_relative "kingdee_api/request"
 require_relative "kingdee_api/response"
-require_relative "kingdee_api/http_adapter"
+
 require_relative "kingdee_api/client"
 
 module KingdeeApi
