@@ -31,8 +31,12 @@ export KINGDEE_DOMAIN=https://tf.jdy.com
 or
 
 ``` ruby
-KingdeeApi.client(
-
+KingdeeApi.client(   
+   client_id: '327910',
+   client_secret: '327xxxxxxx910',
+   app_key: 'gsKeflPn',
+   app_secret: '4bf00ef4c9252e4c727f0e9d762a706d418f5e87',
+   domain: 'https://tf.jdy.com'
 )
 
 ```
