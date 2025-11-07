@@ -6,6 +6,14 @@ module KingdeeApi
     SIGN_PATH = '/jdyconnector/app_management/kingdee_auth_token'
     TOKEN_CACHE_TTL = 24 * 60 * 60 # 24小时，单位：秒
 
+    class << self
+      attr_accessor :global_token_cache
+
+      def reset_token_cache!
+        @global_token_cache = nil
+      end
+    end
+
     def get_token
       # 检查缓存是否有效
       cached_token = get_cached_token
@@ -115,23 +123,24 @@ module KingdeeApi
     end
 
     def cache_token(token)
-      @token_cache = {
+      KingdeeApi::Signature.global_token_cache = {
         token: token,
         cached_at: Time.now
       }
     end
 
     def get_cached_token
-      return nil unless @token_cache
+      token_cache = KingdeeApi::Signature.global_token_cache
+      return nil unless token_cache
 
-      cached_at = @token_cache[:cached_at]
+      cached_at = token_cache[:cached_at]
       return nil unless cached_at
 
       # 检查是否过期（24小时）
       elapsed_time = Time.now - cached_at
       return nil if elapsed_time >= TOKEN_CACHE_TTL
 
-      @token_cache[:token]
+      token_cache[:token]
     end
 
   end
