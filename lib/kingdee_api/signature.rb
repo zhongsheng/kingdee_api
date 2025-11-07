@@ -69,10 +69,10 @@ module KingdeeApi
       if params.nil? || params.empty?
         encoded_params = ''
       else
-      encoded_params = params.sort.to_h.map do |k, v|
-        "#{double_encode(k)}=#{double_encode(v)}"
-      end.join("&")
-    end
+        encoded_params = params.sort.to_h.map do |k, v|
+          "#{double_encode(k)}=#{double_encode(v)}"
+        end.join("&")
+      end
 
       headers_block = [
         "x-api-nonce:#{nonce}",

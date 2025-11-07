@@ -32,7 +32,7 @@ module KingdeeApi
 
     private
 
-    attr_reader :configuration, :signer, :http_adapter
+    attr_reader :signer, :http_adapter
 
     def coerce_configuration(config)
       return config if config.is_a?(Configuration)
